@@ -1,0 +1,57 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar Posto</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form >
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{postoBean.postos}" var="p" id="tblposto" filteredValue="#{postoBean.postoFilter}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblPosto">
+			
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText id="globalFilter" onkeyup="tblPosto.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Nome" footerText="Nome" filterBy="#{p.nome}" filterMatchMode="contains">
+					<h:outputLabel value="#{p.nome}" />
+				</p:column>
+				
+				<p:column headerText="Endereço" footerText="Endereço" filterBy="#{p.local.logradouro}" filterMatchMode="contains">
+					<h:outputText value="#{p.local.logradouro}"/>
+				</p:column>
+				
+				<p:column headerText="Cidade" footerText="Cidade" filterBy="#{p.local.cidade}" filterMatchMode="contains">
+					<h:outputText value="#{p.local.cidade}"/>
+				</p:column>
+				
+				<p:column headerText="Estado" footerText="Estado" filterBy="#{p.local.uf}" filterMatchMode="contains">
+					<h:outputText value="#{p.local.uf}"/>
+				</p:column>
+				
+				<p:column headerText="Alterar" footerText="Alterar" style="width:30px">
+					<p:commandButton value="Alterar" action="alterar-posto.xhtml">
+						<f:setPropertyActionListener target="#{postoBean.postoSelecionado}" value="#{p}" update="tblposto"/>
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Excluir" footerText="Excluir" style="width:30px">
+					<p:commandButton value="Excluir" action="#{postoBean.excluir(p)}" update="tblposto"/>
+				</p:column>
+				
+				<f:facet name="footer">
+					<h:outputLabel value="Total:  #{condominioBean.condominios.size()}"/>
+				</f:facet>
+				
+			</p:dataTable>
+		</h:form>
+	</ui:define>		
+</ui:composition>

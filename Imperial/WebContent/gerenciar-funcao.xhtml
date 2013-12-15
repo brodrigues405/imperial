@@ -1,0 +1,37 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar função</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formgerenciarfuncao">
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{funcaoBean.funcoes}" var="f" id="tblfuncao" filteredValue="#{funcaoBean.funcaoFilter}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblFuncao">
+			
+				<f:facet name="header">Funções</f:facet>
+				
+				<p:column headerText="Função" footerText="Função" filterBy="#{f.descricao}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.descricao}" />
+				</p:column>
+					
+				<p:column headerText="Alterar" footerText="Alterar" style="width:30px">
+					<p:commandButton value="Alterar" onclick="self.location='alterar-funcao.xhtml'">
+						<f:setPropertyActionListener target="#{funcaoBean.novaFuncao}" value="#{f}"  />
+					</p:commandButton>
+				</p:column>
+				
+				<f:facet name="footer">
+					<h:outputLabel value="Total:  #{funcaoBean.funcoes.size()}"/>
+				</f:facet>				
+			</p:dataTable>
+			
+			
+		</h:form>
+	</ui:define>		
+</ui:composition>

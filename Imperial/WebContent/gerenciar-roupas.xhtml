@@ -1,0 +1,56 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar uniformes</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formgerenciarroupas">
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{roupaBean.roupas}" var="r" id="tblroupa" filteredValue="#{roupaBean.roupaFilter}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblRoupa">
+			
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText id="globalFilter" onkeyup="tblRoupa.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Item" footerText="Item" filterBy="#{r.nome}" filterMatchMode="contains">
+					<h:outputLabel value="#{r.nome}" />
+				</p:column>
+				
+				<p:column headerText="Tamanho" footerText="Tamanho" filterBy="#{r.tamanho}" filterMatchMode="contains" style="width:30px">
+					<h:outputText value="#{r.tamanho}" styleClass="texto-centro"/>
+				</p:column>
+				
+				<p:column headerText="Qtd" footerText="Qtd" filterBy="#{r.qtd}" filterMatchMode="contains" style="width:30px">
+					<h:outputText value="#{r.qtd}" styleClass="texto-centro" />
+				</p:column>
+							
+				<p:column headerText="Preço Und." footerText="Preço Und." filterBy="#{r.precoUnidade}" filterMatchMode="contains" style="width:30px">
+					<h:outputText value="R$: #{r.precoUnidade}" styleClass="texto-centro"/>
+				</p:column>
+				
+				<p:column headerText="Preço total" footerText="Preço Total" filterBy="#{r.precoTotal}" filterMatchMode="contains" style="width:30px">
+					<h:outputText value="R$:#{r.precoTotal}" styleClass="texto-centro"/>
+				</p:column>
+				
+				<p:column headerText="Alterar" footerText="Alterar" style="width:30px">
+					<p:commandButton value="Alterar" action="alterar-roupa.xhtml">
+						<f:setPropertyActionListener target="#{roupaBean.roupaSelecionada}" value="#{r}"/>
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Excluir" footerText="Excluir" style="width:30px">
+					<p:commandButton value="Excluir" action="#{roupaBean.excluir(r)}" update="tblroupa"/>
+				</p:column>					
+			</p:dataTable>
+		</h:form>
+	</ui:define>		
+</ui:composition>

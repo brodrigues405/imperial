@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+		<ui:insert name="cabecalho"/>
+		<h:outputStylesheet name="estilo.css" library="css"/>
+	</h:head>
+	
+	<h:body>
+	
+		<div id="principal" class="centraliza">
+			
+			<p:panel rendered="#{sessionScope.tipo != 'ADMIN' and (sessionScope.tipo != 'NORMAL')}">
+				Usuario nao tem permissao para acessar este recurso.Cliquei 
+				<a href="login.xhtml">aqui</a> para executar login
+			</p:panel>
+			
+			
+			<h:form rendered="#{sessionScope.tipo == 'ADMIN' or (sessionScope.tipo == 'NORMAL')}">
+				<p:menubar>					
+					<p:menuitem value="Home" url="index.xhtml"/>
+					
+					<p:submenu label="Estoque">
+						<p:menuitem value="Novo Material" url="estoque.xhtml"/>
+						<p:menuitem value="Gerenciar Materiais" url="gerenciar-estoque.xhtml"/>
+						<p:menuitem value="Itens movidos" url="itens-movidos.xhtml"/>
+					</p:submenu>
+					
+					<p:submenu label="Funcionarios">
+						<p:menuitem value="Novo Funcionario" url="funcionario.xhtml"/>
+						<p:menuitem value="Nova Funcao" url="funcao.xhtml"/>
+						<p:menuitem value="Gerenciar Funcionarios" url="gerenciar-funcionarios.xhtml"/>
+						<p:menuitem value="Gerênciar Funções" url="gerenciar-funcao.xhtml"/>
+					</p:submenu>
+		
+					<p:submenu label="Patrimonio">
+						<p:menuitem value="Novo Patrimonio"/>
+						<p:menuitem value="Gerenciar Patrimonio"/>
+					</p:submenu>
+					
+					<p:submenu label="Posto">
+						<p:menuitem value="Novo Posto" url="posto.xhtml"/>
+						<p:menuitem value="Gerenciar Posto" url="gerenciar-postos.xhtml"/>
+					</p:submenu>
+					
+					<p:submenu label="Uniformes">
+						<p:menuitem value="Novo Peça" url="roupas.xhtml"/>
+						<p:menuitem	 value="Novo Uniforme" url="uniforme.xhtml"/>
+						<p:menuitem value="Gerenciar Peças" url="gerenciar-roupas.xhtml"/>
+						<p:menuitem value="Gerenciar Uniformes"/>
+					</p:submenu>
+											
+					<p:submenu label="Usuarios" rendered="#{sessionScope.tipo == 'ADMIN'}">
+						<p:menuitem value="Novo Usuario" url="usuario.xhtml"/>
+						<p:menuitem value="Gerenciar Usuarios" url="gerenciar-usuarios.xhtml"/>
+					</p:submenu>
+	
+					<p:menuitem value="Sair" action="#{usuarioBean.logout}"/>				
+				</p:menubar>
+			</h:form>
+			
+			<div id="area-util">
+				<p:outputPanel rendered="#{sessionScope.tipo == 'ADMIN' or (sessionScope.tipo == 'NORMAL')}">
+					
+					
+					
+					<ui:insert name="conteudo"/>
+				</p:outputPanel>				
+			</div>
+			
+		</div><!-- Fim da div principal -->		
+	</h:body>
+</html>

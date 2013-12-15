@@ -1,0 +1,49 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar estoque</title>
+		<h:outputScript name="mascaraWithJquery.js" library="js" target="body"/>
+		<h:outputScript name="jquery.maskMoney.js" library="js" target="body"/>
+		<h:outputScript name="validacoes.js" library="js" target="body"/>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formgerenciaritens">
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{estoqueHistoricoBean.itensMovidos}" var="e" id="tblitens" filteredValue="#{estoqueHistoricoBean.itensFilter}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblItens">
+			
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText  id="globalFilter" onkeyup="tblItens.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Data" footerText="Data" filterBy="#{e.data}" filterMatchMode="contains">
+					
+					<h:outputLabel value="#{e.data}">
+						<f:convertDateTime pattern="dd/MM/yyy" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+					</h:outputLabel>
+					
+				</p:column>
+				
+				<p:column headerText="Quantidade" footerText="Quantidade" filterBy="#{e.qtdTransferida}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.qtdTransferida}" />
+				</p:column>
+				
+				<p:column headerText="Destino" footerText="Destino" filterBy="#{e.destino.nome}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.destino.nome}" />
+				</p:column>
+				
+				<p:column headerText="Item movido" footerText="Item movido" filterBy="#{e.estoque.descricao}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.estoque.descricao}" />
+				</p:column>				
+			</p:dataTable>		
+		</h:form>
+	</ui:define>		
+</ui:composition>

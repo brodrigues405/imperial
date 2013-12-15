@@ -1,0 +1,52 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="conteudo">
+	
+		<p:panel rendered="#{sessionScope.tipo != 'ADMIN'}">
+				Usuario nao tem permissao para acessar este recurso.Cliquei 
+				<a href="login.xhtml">aqui</a> para executar login
+		</p:panel>
+		<h:form id="formListaUsuarios" rendered="#{sessionScope.tipo == 'ADMIN'}">
+		
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{usuarioBean.usuarios}" var="obj" filteredValue="#{usuarioBean.usuarioFilter}" id="tblusuario"
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblUsuario">
+				
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText id="globalFilter" onkeyup="tblUsuario.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Nome" footerText="Nome" filterBy="#{obj.nome}" filterMatchMode="contains">
+					<h:outputText value="#{obj.nome}"/>
+				</p:column>
+				
+				<p:column headerText="Login" footerText="Login" filterBy="#{obj.login}" filterMatchMode="contains" >
+					<h:outputText value="#{obj.login}" />
+				</p:column>
+				
+				
+				<p:column headerText="Tipo" footerText="Tipo" filterBy="#{obj.tipo}" filterMatchMode="contains" style="width:80px;">
+					<h:outputText value="#{obj.tipo}" />
+				</p:column>
+				
+				<p:column headerText="Alterar" footerText="Alterar" style="width:80px;">
+					<p:commandButton value="Atualizar" action="atualizar-usuario.xhtml">
+						<f:setPropertyActionListener target="#{usuarioBean.usuarioSelecionado}" value="#{obj}"/>
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Excluir" footerText="Excluir" style="width:80px;">
+					<p:commandButton value="Remover" action="#{usuarioBean.excluir(obj)}" update=":formListaUsuarios"/>					
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>		
+	</ui:define>
+</ui:composition>

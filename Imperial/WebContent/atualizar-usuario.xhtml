@@ -1,0 +1,38 @@
+<ui:composition template="/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="conteudo">
+		<p:panel rendered="#{sessionScope.tipo != 'ADMIN'}">
+				Usuario nao tem permissao para acessar este recurso.Cliquei 
+				<a href="login.xhtml">aqui</a> para executar login
+		</p:panel>
+		<h:form id="form-atualizarUsuario" rendered="#{sessionScope.tipo == 'ADMIN'}">
+			<p:messages autoUpdate="true"/>
+            <h:panelGrid columns="2">
+				<h:outputLabel value="Nome: " />
+				<p:inputText value="#{usuarioBean.usuarioSelecionado.nome}"/>
+				
+				<h:outputLabel value="Login: " />
+				<p:inputText value="#{usuarioBean.usuarioSelecionado.login}" />
+				
+				<h:outputLabel value="Senha: " />
+				<p:password value="#{usuarioBean.usuarioSelecionado.senha}" />
+				
+				<h:outputLabel value="Usuario:" />
+				<p:selectOneMenu value="#{usuarioBean.usuarioSelecionado.tipo}">
+					<f:selectItem  noSelectionOption="true" itemLabel="Selecione"/>
+					<f:selectItem itemLabel="ADMINISTRADOR" itemValue="ADMIN"/>
+					<f:selectItem itemLabel="NORMAL" itemValue="NORMAL"/>
+				</p:selectOneMenu>
+				
+				<p:commandButton value="Atualizar" action="#{usuarioBean.atualizar}" update="form-atualizarUsuario"/>
+				<p:commandButton value="Cancelar" onclick="self.location='gerenciar-usuarios.xhtml'" immediate="true" />
+				
+			</h:panelGrid>	
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,83 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar estoque</title>
+		<h:outputScript name="mascaraWithJquery.js" library="js" target="body"/>
+		<h:outputScript name="jquery.maskMoney.js" library="js" target="body"/>
+		<h:outputScript name="validacoes.js" library="js" target="body"/>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formgerenciarestoque">
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{estoqueBean.estoques}" var="e" id="tblestoque" filteredValue="#{estoqueBean.estoqueFiltro}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblEstoque">
+			
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText  id="globalFilter" onkeyup="tblEstoque.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Descrição" footerText="Descrição" filterBy="#{e.descricao}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.descricao}" />
+				</p:column>
+				
+				<p:column headerText="Quantidade" footerText="Quantidade" filterBy="#{e.qtd}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.qtd}" />
+				</p:column>
+				
+				<p:column headerText="Minimo" footerText="Minimo" filterBy="#{e.minimo}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.minimo}" />
+				</p:column>
+				
+				<p:column headerText="Valor unitario" footerText="Valor unitario" filterBy="#{e.valorUnidade}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.valorUnidade}" />
+				</p:column>
+				
+				<p:column headerText="Valor total" footerText="Valor total" filterBy="#{e.valorTotal}" filterMatchMode="contains">
+					<h:outputLabel value="#{e.valorTotal}" />
+				</p:column>
+				
+				<p:column headerText="+/-" footerText="+/-">
+					<p:commandButton value="+" onclick="self.location='adicionar-item-estoque.xhtml'">
+						<f:setPropertyActionListener target="#{estoqueBean.estoqueSelecionado}" value="#{e}"/>
+					</p:commandButton>
+					
+					<p:commandButton value="-" onclick="self.location = 'mover-item-para-posto.xhtml'">
+						<f:setPropertyActionListener target="#{estoqueBean.estoqueSelecionado}" value="#{e}"/>
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Alterar" footerText="Alterar" style="width:30px">
+					<p:commandButton value="Alterar" onclick="self.location='alterar-estoque.xhtml'">
+						<f:setPropertyActionListener target="#{estoqueBean.estoqueSelecionado}" value="#{e}"/>
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Excluir" footerText="Excluir" style="width:30px">
+					<p:commandButton value="Excluir" onclick="confirmarExclusao.show()">
+						<f:setPropertyActionListener target="#{estoqueBean.estoque}" value="#{e}"/>
+					</p:commandButton>
+				</p:column>
+				
+				<f:facet name="footer">
+					<h:outputLabel value="Total: #{estoqueBean.total}"/>
+				</f:facet>
+				
+			</p:dataTable>
+			
+			<p:confirmDialog widgetVar="confirmarExclusao" message="Deseja excluir o produto do estoque?">
+				<p:commandButton value="Sim" onclick="confirmarExclusao.hide()" action="#{estoqueBean.excluir}" update="tblestoque"/>
+				<p:commandButton value="Não" onclick="confirmarExclusao.hide()"/>
+			</p:confirmDialog>
+			
+			
+		</h:form>
+	</ui:define>		
+</ui:composition>

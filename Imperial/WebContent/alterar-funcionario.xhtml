@@ -1,0 +1,276 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="cabecalho">
+		<title>Cadastrar Funcionário</title>
+		<h:outputScript name="locale-primefaces.js" library="js" target="body"/>
+		<h:outputScript name="mascaraWithJquery.js" library="js" target="body"/>
+		<h:outputScript name="jquery.maskMoney.js" library="js" target="body"/>
+	</ui:define>
+	
+	<ui:define name="conteudo">	
+		<h:form id="formCadastroFuncionario" enctype="multipart/form-data">
+		
+			<p:messages autoUpdate="true" closable="true" />	
+			
+			<p:fieldset legend="Cadastro de funcionário">
+			
+				<p:fieldset legend="Dados">
+					<p:panelGrid columns="4" styleClass="semBorda">
+								
+						<h:outputLabel value="Nome do empregado:" for="entradaNome"/>
+						<p:inputText id="entradaNome" size="40" maxlength="120" value="#{funcionarioBean.funcionario.nome}" 
+						required="true" requiredMessage="O campo nome é obrigatório." />
+						
+						<h:outputLabel value="Nome do pai:" for="entradaNomePai"/>
+						<p:inputText size="40" maxlength="120" id="entradaNomePai" value="#{funcionarioBean.funcionario.nomePai}"/>
+						
+						<h:outputLabel value="Nome da mãe:" for="entradaNomeMae"/>
+						<p:inputText size="40" maxlength="120" id="entradaNomeMae" value="#{funcionarioBean.funcionario.nomeMae}"/>
+						
+						<h:outputLabel value="Data de Nascimento:" for="entradaDataNasc"/>
+						<p:calendar id="entradaDataNasc" locale="pt_BR" navigator="true" showButtonPanel="true" 
+						yearRange="c-50:c+10" pattern="dd/MM/yyyy" size="10" showOn="button" value="#{funcionarioBean.funcionario.dataNascimento}">
+							<f:convertDateTime pattern="dd/MM/yyy" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						</p:calendar>
+						
+						<h:outputLabel value="Idade:" for="entradaIdade"/>
+						<p:inputText validatorMessage="Idade invalida." id="entradaIdade" size="3" value="#{funcionarioBean.funcionario.idade}">
+							<f:validateLongRange maximum="99" minimum="16"/>					
+						</p:inputText>
+						
+						<h:outputLabel value="Local de nascimento:" for="entradaDataNasc"/>
+						<p:inputText id="entradaLocalNasc" value="#{funcionarioBean.funcionario.localNascimento}"/>
+						
+						<h:outputLabel value="UF:" for="entradaUf"/>
+						<p:selectOneMenu id="entradaUf" value="#{funcionarioBean.funcionario.uf}">
+							<f:selectItem itemLabel="Selecione o estado" noSelectionOption="true" />
+							<f:selectItem itemLabel="AC" itemValue="AC"/>
+							<f:selectItem itemLabel="AL" itemValue="AL"/>
+							<f:selectItem itemLabel="AM" itemValue="AM"/>
+							<f:selectItem itemLabel="AP" itemValue="AP"/>
+							<f:selectItem itemLabel="BA" itemValue="BA"/>
+							<f:selectItem itemLabel="CE" itemValue="CE"/>
+							<f:selectItem itemLabel="DF" itemValue="DF"/>
+							<f:selectItem itemLabel="ES" itemValue="ES"/>
+							<f:selectItem itemLabel="GO" itemValue="GO"/>
+							<f:selectItem itemLabel="MA" itemValue="MA"/>
+							<f:selectItem itemLabel="MG" itemValue="MG"/>
+							<f:selectItem itemLabel="MS" itemValue="MS"/>
+							<f:selectItem itemLabel="MT" itemValue="MT"/>
+							<f:selectItem itemLabel="PA" itemValue="PA"/>
+							<f:selectItem itemLabel="PB" itemValue="PB"/>
+							<f:selectItem itemLabel="PE" itemValue="PE"/>
+							<f:selectItem itemLabel="PI" itemValue="PI"/>
+							<f:selectItem itemLabel="PR" itemValue="PR"/>
+							<f:selectItem itemLabel="RJ" itemValue="RJ"/>
+							<f:selectItem itemLabel="RN" itemValue="RN"/>
+							<f:selectItem itemLabel="RO" itemValue="RO"/>
+							<f:selectItem itemLabel="RR" itemValue="RR"/>
+							<f:selectItem itemLabel="RS" itemValue="RS"/>
+							<f:selectItem itemLabel="SC" itemValue="SC"/>
+							<f:selectItem itemLabel="SE" itemValue="SE"/>
+							<f:selectItem itemLabel="SP" itemValue="SP"/>
+							<f:selectItem itemLabel="TO" itemValue="TO"/>	
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Estado civil:" for="entradaEstadoCivil"/>
+						<p:selectOneMenu id="entradaEstadoCivil" value="#{funcionarioBean.funcionario.estadoCivil}">
+							<f:selectItem itemLabel="Selecione o estado civil" noSelectionOption="true"/>						
+							<f:selectItem itemValue="SOLTEIRO" itemLabel="Solteiro"/>						
+							<f:selectItem itemValue="CASADO" itemLabel="Casado"/>
+							<f:selectItem itemValue="DIVORCIADO" itemLabel="Divorciado"/>
+							<f:selectItem itemValue="DESQUITADO" itemLabel="Desquitado"/>	
+							<f:selectItem itemValue="VIUVO" itemLabel="Viuvo"/>					
+						</p:selectOneMenu>
+												
+						<h:outputLabel value="Nome da conjuge:" for="entradaNomeConjuge"/>						
+						<p:inputText size="40" maxlength="120" id="entradaNomeConjuge" value="#{funcionarioBean.funcionario.nomeConjuge}"/>		
+						
+						<h:outputLabel value="Telefone:"/>
+						<p:inputMask mask="(99) 9999-9999" value="#{funcionarioBean.funcionario.telefone}"/>
+						
+						<h:outputLabel value="Foto:"/>
+						<p:fileUpload fileUploadListener="#{funcionarioBean.manipularFoto}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" 
+						label="Selecione" invalidFileMessage="Arquivo invalido, por favor selecione um arquivo no formato gif, jpg, jpeg ou png."/>											
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Documentação" styleClass="desce10">
+					<p:panelGrid columns="6" styleClass="semBorda">					
+						<h:outputLabel value="CTPS Nº:" for="entradaCTPS"/>
+						<p:inputText id="entradaCTPS" value="#{funcionarioBean.funcionario.documentos.ctps}"/>
+						
+						<h:outputLabel value="Serie Nº:" for="entradaSerie"/>
+						<p:inputText id="entradaSerie" value="#{funcionarioBean.funcionario.documentos.serie}" />
+						
+						<h:outputLabel value="RG:" for="entradaRG"/>
+						<p:inputText id="entradaRG" value="#{funcionarioBean.funcionario.documentos.rg}"/>
+						
+						<h:outputLabel value="CPF:" for="entradaCPF"/>
+						<p:inputMask mask="999.999.999-99" id="entradaCPF" value="#{funcionarioBean.funcionario.documentos.cpf}"/>
+						
+						<h:outputLabel value="Título de eleitor:" for="entradaTitulo"/>
+						<p:inputText id="entradaTitulo" maxlength="30" value="#{funcionarioBean.funcionario.documentos.titulo}"/>
+						
+						<h:outputLabel value="Zona:" for="entradaZona"/>
+						<p:inputText id="entradaZona" maxlength="30" value="#{funcionarioBean.funcionario.documentos.zona}"/>
+						
+						<h:outputLabel value="Reservista:" for="entradaReservista"/>
+						<p:inputText id="entradaReservista" maxlength="30" value="#{funcionarioBean.funcionario.documentos.reservista}"/>
+						
+						<h:outputLabel value="Categoria:" for="entradaCategoria"/>
+						<p:inputText id="entradaCategoria" maxlength="30" value="#{funcionarioBean.funcionario.documentos.categoria}"/>
+						
+						<h:outputLabel value="Nº do PIS:" for="entradaPIS"/>
+						<p:inputText id="entradaPIS" maxlength="30" value="#{funcionarioBean.funcionario.documentos.pis}"/>				
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Profissional" styleClass="desce10">
+					<p:panelGrid columns="6" styleClass="semBorda">					
+						<h:outputLabel value="Codigo:" />
+						<p:inputText value="#{funcionarioBean.funcionario.codigo}"/>
+									
+						<h:outputLabel value="Função:"/>
+						<p:selectOneMenu value="#{funcionarioBean.funcionario.funcao.id}" required="true" requiredMessage="Selecione uma função.">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione a função"/>
+							<f:selectItems value="#{funcaoBean.funcoes}" var="funcao" itemLabel="#{funcao.descricao}" itemValue="#{funcao.id}"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Salário:"/>
+						<p:inputText styleClass="real" value="#{funcionarioBean.funcionario.profissional.salario}"/>
+						
+						<h:outputLabel value="Data de admissão:"/>
+						<p:calendar locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" showButtonPanel="true" size="10" 
+						showOn="button" value="#{funcionarioBean.funcionario.profissional.admissao}" 
+						required="true" requiredMessage="Informe a data de admissão."/>
+						
+						<h:outputLabel value="Data de demissão:"/>
+						<p:calendar locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" showButtonPanel="true" size="10" 
+						showOn="button" value="#{funcionarioBean.funcionario.profissional.demissao}"/>		
+
+						<h:outputLabel value="Empresa:"/>
+						<p:selectOneMenu value="#{funcionarioBean.funcionario.profissional.empresa}" required="true" 
+						requiredMessage="Selecione a empresa">
+							<f:selectItem itemLabel="Selecione a empresa" noSelectionOption="true"/>
+							<f:selectItem itemLabel="Imperial" itemValue="IMPERIAL"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Local de trabalho:"/>
+						<p:selectOneMenu value="#{funcionarioBean.funcionario.localTrabalho.id}">
+							<f:selectItem itemLabel="Selecione o local" noSelectionOption="true"/>
+							<f:selectItems itemLabel="#{p.nome}" itemValue="#{p.id}" value="#{postoBean.postos}" var="p"/>
+						</p:selectOneMenu>				
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Horário" styleClass="desce10">
+					<p:panelGrid columns="6" styleClass="semBorda">
+						<h:outputLabel value="Descanço semanal:"/>
+						<p:selectOneMenu value="#{funcionarioBean.funcionario.profissional.descancoSemanal}">
+							<f:selectItem itemLabel="Selecione o dia da semana" noSelectionOption="true"/>
+							<f:selectItem itemLabel="Domingo" itemValue="DOMINGO"/>
+							<f:selectItem itemLabel="Segunda" itemValue="SEGUNDA"/>
+							<f:selectItem itemLabel="Terça" itemValue="TERCA"/>
+							<f:selectItem itemLabel="Quarta" itemValue="QUARTA"/>
+							<f:selectItem itemLabel="Quinta" itemValue="QUINTA"/>
+							<f:selectItem itemLabel="Sexta" itemValue="SEXTA"/>
+							<f:selectItem itemLabel="Sábado" itemValue="SABADO"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Entrada:"/>
+						<p:calendar locale="pt_BR" pattern="HH:mm" timeOnly="true" showOn="button" size="6" 
+						value="#{funcionarioBean.funcionario.profissional.entrada}"/>
+						
+						<h:outputLabel value="Intervalo para almoço:"/>
+						<p:calendar locale="pt_BR" pattern="HH:mm" timeOnly="true" showOn="button" size="6" 
+						value="#{funcionarioBean.funcionario.profissional.intervaloAlmoco}">
+							<f:convertDateTime pattern="HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						</p:calendar>
+						
+						<h:outputLabel value="Saída:"/>
+						<p:calendar locale="pt_BR" pattern="HH:mm" timeOnly="true" showOn="button" size="6"
+						value="#{funcionarioBean.funcionario.profissional.saida}">
+							<f:convertDateTime pattern="HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+						</p:calendar>
+						
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Férias" styleClass="desce10">
+					<p:panelGrid columns="4" styleClass="semBorda">
+						<h:outputLabel value="Inicio:"/>
+						<p:calendar locale="pt_BR" showOn="button" size="10" value="#{funcionarioBean.funcionario.profissional.feriasInicio}" >
+							<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						</p:calendar>
+						
+						<h:outputLabel value="Termino:"/>
+						<p:calendar locale="pt_BR" showOn="button" size="10" value="#{funcionarioBean.funcionario.profissional.feriasTermino}">
+							<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						</p:calendar>
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Uniforme" styleClass="desce10">
+					<p:panelGrid columns="8" styleClass="semBorda">
+						<h:outputLabel value="Camisa:" for="entradaCamisa"/>
+						<p:selectOneMenu id="entradaCamisa" value="#{funcionarioBean.funcionario.camisa}">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione o tamanho"/>
+							<f:selectItem itemLabel="P" itemValue="P"/>
+							<f:selectItem itemLabel="M" itemValue="M"/>
+							<f:selectItem itemLabel="G" itemValue="G"/>
+							<f:selectItem itemLabel="GG" itemValue="GG"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Calça:" for="entradaCalca"/>
+						<p:selectOneMenu id="entradaCalca" value="#{funcionarioBean.funcionario.calca}">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione o tamanho"/>
+							<f:selectItem itemLabel="P" itemValue="P"/>
+							<f:selectItem itemLabel="M" itemValue="M"/>
+							<f:selectItem itemLabel="G" itemValue="G"/>
+							<f:selectItem itemLabel="GG" itemValue="GG"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel value="Sapato:" for="entradaSapato"/>
+						<p:inputText id="entradaSapato" validatorMessage="Tamanho de sapato invalido." size="3"  
+						value="#{funcionarioBean.funcionario.sapato}"/>						
+						
+						<h:outputFormat value="Entrega:" />
+						<p:calendar locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" showButtonPanel="true" size="10" 
+						showOn="button"  value="#{funcionarioBean.funcionario.entrega}">
+							<f:convertDateTime pattern="dd/MM/yyy" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						</p:calendar>
+						
+						<h:outputFormat value="Troca:" />
+						<p:calendar locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" showButtonPanel="true" size="10" 
+						showOn="button" value="#{funcionarioBean.funcionario.troca}">			
+							<f:convertDateTime pattern="dd/MM/yyy" locale="pt_BR" timeZone="America/Sao_Paulo"/>			
+						</p:calendar>
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset legend="Banco" styleClass="desce10">
+					<p:panelGrid columns="6" styleClass="semBorda">
+						<h:outputLabel value="Banco:" for="entradaBanco"/>
+						<p:inputText id="entradaBanco" value="#{funcionarioBean.funcionario.banco.banco}"/>
+						
+						<h:outputLabel value="Agência:" for="entradaAgencia"/>
+						<p:inputText id="entradaAgencia" value="#{funcionarioBean.funcionario.banco.agencia}"/>
+						
+						<h:outputLabel value="Conta:" for="entradaConta"/>
+						<p:inputText id="entradaConta" value="#{funcionarioBean.funcionario.banco.conta}"/>						
+					</p:panelGrid>
+				</p:fieldset>
+				
+				<p:panelGrid columns="2" styleClass="semBorda centraliza" style="margin-top:10px; width:200px">
+					<p:commandButton value="Cadastrar" update="formCadastroFuncionario" action="#{funcionarioBean.cadastrar}" onclick="window.scrollTo(0, 0);"/>
+					<p:commandButton value="Cancelar" immediate="true" onclick="self.location='index.xhtml'"/>
+				</p:panelGrid>
+			</p:fieldset>						
+		</h:form>
+	</ui:define>	
+</ui:composition>

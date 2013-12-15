@@ -1,0 +1,33 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+			
+	<ui:define name="cabecalho">
+		<title>Alterar uniformes</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="cadastrar-roupa">
+			<p:messages autoUpdate="true"/>
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputLabel value="Nome:" for="input-nome"/>
+				<p:inputText id="input-nome" value="#{roupaBean.roupaSelecionada.nome}" required="true"/>
+				
+				<h:outputLabel value="Tamanho:" for="input-tamanho"/>
+				<p:inputText id="input-tamanho" value="#{roupaBean.roupaSelecionada.tamanho}" required="true"/>
+				
+				<h:outputLabel value="Quantidade:" for="input-qtd"/>
+				<p:inputText id="input-qtd" value="#{roupaBean.roupaSelecionada.qtd}" required="true"/>
+						
+				<h:outputLabel value="Preço:" for="input-preco"/>
+				<p:inputText id="input-preco" value="#{roupaBean.roupaSelecionada.precoUnidade}" required="true"/>
+				
+				<p:commandButton value="Salvar" action="#{roupaBean.atualizar}" update="cadastrar-roupa"/>
+				<p:commandButton value="Cancelar" immediate="true" onclick="self.location='gerenciar-roupas.xhtml'"/>
+			</p:panelGrid>
+		</h:form>		
+	</ui:define>	
+		
+</ui:composition>

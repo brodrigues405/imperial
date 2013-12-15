@@ -1,0 +1,26 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="cabecalho">
+		<title>Alterar Funcao</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formalterar">
+			<p:messages autoUpdate="true"/>
+			<p:panelGrid styleClass="semBorda" columns="2">
+				<h:outputText value="Funcao:" />				
+				<p:inputText value="#{funcaoBean.novaFuncao.descricao}"/>
+				
+				
+				<p:commandButton value="Alterar" action="#{funcaoBean.alterar}" update="formalterar"/>
+				<p:commandButton value="Cancelar" immediate="true" onclick="self.location='gerenciar-funcao.xhtml'"/>						
+			</p:panelGrid>
+		</h:form>		
+	</ui:define>	
+	
+	
+</ui:composition>

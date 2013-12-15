@@ -1,0 +1,66 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="cabecalho">
+		<title>Gerenciar função</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formgerenciarfuncao">
+			<p:messages autoUpdate="true"/>
+			<p:dataTable value="#{funcionarioBean.funcionarios}" var="f" id="tblfuncionario" filteredValue="#{funcionarioBean.funcionarioFilter}" 
+			emptyMessage="Nenhum resultado encontrado" paginator="true" paginatorAlwaysVisible="false" rows="20" widgetVar="tblFuncionario">
+			
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputLabel value="Pesquisar: " />
+						<p:inputText id="globalFilter" onkeyup="tblFuncionario.filter()"/>
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:column headerText="Matricula" footerText="Matricula" filterBy="#{f.codigo}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.codigo}" />
+				</p:column>
+				
+				<p:column headerText="Nome" footerText="Nome" filterBy="#{f.nome}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.nome}" />
+				</p:column>
+				
+				<p:column headerText="Telefone" footerText="Telefone" filterBy="#{f.telefone}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.telefone}" />
+				</p:column>
+				
+				<p:column headerText="Local de trabalho" footerText="Local de trabalho" filterBy="#{f.localTrabalho.nome}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.localTrabalho.nome}" />
+				</p:column>
+				
+				<p:column headerText="Empresa" footerText="Empresa" filterBy="#{f.profissional.empresa}" filterMatchMode="contains">
+					<h:outputLabel value="#{f.profissional.empresa}" />
+				</p:column>
+				
+				<p:column headerText="Alterar" footerText="Alterar" style="width:30px;">
+					<p:commandButton value="Alterar"></p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Excluir" footerText="Excluir" style="width:30px;">
+					<p:commandButton value="Excluir" onclick="dlgExcluir.show()">
+						<f:setPropertyActionListener target="#{funcionarioBean.funcionario}" value="#{f}"/>
+					</p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<h:outputLabel value="Total de funcioanrios: #{funcionarioBean.funcionarios.size()}"/>
+				</f:facet>				
+			</p:dataTable>
+			
+			<p:confirmDialog widgetVar="dlgExcluir" message="Deseja realmente excluir este funcionario?">
+				<p:commandButton value="Sim" action="#{funcionarioBean.excluir}" onclick="dlgExcluir.hide()" 
+				update="tblfuncionario"/>
+				<p:commandButton value="Não" onclick="dlgExcluir.hide()"/>
+			</p:confirmDialog>
+			
+		</h:form>
+	</ui:define>		
+</ui:composition>

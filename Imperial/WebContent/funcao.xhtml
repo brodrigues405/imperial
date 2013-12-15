@@ -1,0 +1,25 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="cabecalho">
+		<title>Cadastrar função</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="cadastro-funcao">
+			<p:messages autoUpdate="true"/>
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputLabel value="Função:" />
+				<p:inputText value="#{funcaoBean.novaFuncao.descricao}"/>
+				
+				<p:commandButton value="Cadastrar" action="#{funcaoBean.cadastrar}" update="cadastro-funcao"/>
+				<p:commandButton value="Cancelar" immediate="true" onclick="self.location='index.xhtml'"/>
+			</p:panelGrid>
+		</h:form>		
+	</ui:define>	
+	
+	
+</ui:composition>

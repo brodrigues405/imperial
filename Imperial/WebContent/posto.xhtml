@@ -1,0 +1,42 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="cabecalho">
+		<title>Cadastrar condominio</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formcadastrar">
+			<p:messages autoUpdate="true"/>
+			<p:panelGrid styleClass="semBorda" columns="2">
+				<h:outputText value="Condominio:" />				
+				<p:inputText value="#{postoBean.posto.nome}"/>
+				
+				<h:outputText value="Endereço:" />
+				<p:inputText value="#{postoBean.posto.local.logradouro}"/>
+				
+				<h:outputText value="Cidade:" />
+				<p:inputText value="#{postoBean.posto.local.cidade}"/>
+				
+				<h:outputText value="CEP:" />
+				<p:inputMask mask="99999-999" value="#{postoBean.posto.local.cep}"/>
+				
+				<h:outputText value="UF:" />
+				<p:selectOneMenu value="#{postoBean.posto.local.uf}">
+					<f:selectItem itemLabel="Selecione o estado" noSelectionOption="true"/>
+					<f:selectItem itemLabel="DF" itemValue="DF"/>
+					<f:selectItem itemLabel="GO" itemValue="GO"/>
+					<f:selectItem itemLabel="Outro" itemValue="Outro"/>
+				</p:selectOneMenu> 
+				
+				<p:commandButton value="Cadastrar" action="#{postoBean.cadastrar}" update="formcadastrar"/>
+				<p:commandButton value="Cancelar" onclick="self.location='index.xhtml'" immediate="true"/>							
+			</p:panelGrid>
+		</h:form>		
+	</ui:define>	
+	
+	
+</ui:composition>

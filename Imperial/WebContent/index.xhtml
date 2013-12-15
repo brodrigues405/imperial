@@ -1,0 +1,29 @@
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="cabecalho">
+		<title>Página inicial</title>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<p:accordionPanel>
+			<p:tab title="Estoque em baixa">
+				<p:dataTable id="tblestoquebaixa" paginatorAlwaysVisible="false" rows="10" value="#{estoqueBean.estoqueBaixo}" var="e"
+				emptyMessage="Estoque normal.">
+					<p:column headerText="material" footerText="Material">
+						<h:outputLabel value="#{e.descricao}"/>
+					</p:column>
+					
+					<p:column headerText="Qtd disponível" footerText="Qtd disponível">
+						<h:outputLabel value="#{e.qtd}"/>
+					</p:column>
+				</p:dataTable>
+			</p:tab>			
+		</p:accordionPanel>
+				
+	</ui:define>	
+		
+</ui:composition>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+		<h:outputStylesheet name="estilo.css" library="css"/>
+	</h:head>
+	
+	<h:body>
+		<h:form id="fmrlogin" styleClass="formLogin centraliza"	>		
+			<p:messages autoUpdate="true"/>					
+			
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputLabel value="Login:" />
+				<p:inputText value="#{usuarioBean.login}"/>
+				
+				<h:outputLabel value="Senha:"/>
+				<p:password value="#{usuarioBean.senha}"/>
+				
+				<p:commandButton value="Autenticar" action="#{usuarioBean.autenticar}" update="fmrlogin"/>				
+			</p:panelGrid>
+			
+			<p:ajaxStatus>  
+			    <f:facet name="start">  
+			       <p:graphicImage value="resources/img/loader.gif" style="margin:0 auto"/> 
+			    </f:facet>  
+				  
+			    <f:facet name="complete"></f:facet>  
+			</p:ajaxStatus> 
+								
+		</h:form>
+	</h:body>	
+</html>
